@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:reg="http://www.dangdang.com/schema/ddframe/reg"
+       xmlns:job="http://www.dangdang.com/schema/ddframe/job"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.dangdang.com/schema/ddframe/reg
+        http://www.dangdang.com/schema/ddframe/reg/reg.xsd
+        http://www.dangdang.com/schema/ddframe/job
+        http://www.dangdang.com/schema/ddframe/job/job.xsd
+">
+    <reg:zookeeper server-lists="cl0505.club:2181" namespace="spring-elaticjob" id="zkCenter"/>
+
+<!--    <job:simple registry-center-ref="zkCenter" cron="0/10 * * * * ?" sharding-total-count="2" class="com.github.wangchenning.MySimpleJob" id="mySimpleJob" overwrite="true"/>-->
+
+    <job:dataflow registry-center-ref="zkCenter" cron="0/10 * * * * ?" sharding-total-count="2" id="myDataflowJob" class="com.github.wangchenning.MyDataflowJob" overwrite="true" streaming-process="true" />
+</beans>
