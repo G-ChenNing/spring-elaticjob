@@ -8,9 +8,19 @@
         http://www.dangdang.com/schema/ddframe/job
         http://www.dangdang.com/schema/ddframe/job/job.xsd
 ">
+    <bean id="dataSource" class="org.apache.commons.dbcp2.BasicDataSource">
+        <property name="username" value="root"/>
+        <property name="password" value="wcnwcn175"/>
+        <property name="url" value="jdbc:mysql://cl0505.club:3306/dataflow?serverTimezone=Asia/Shanghai&amp;useSSL=false"/>
+    </bean>
+
     <reg:zookeeper server-lists="cl0505.club:2181" namespace="spring-elaticjob" id="zkCenter"/>
 
 <!--    <job:simple registry-center-ref="zkCenter" cron="0/10 * * * * ?" sharding-total-count="2" class="com.github.wangchenning.MySimpleJob" id="mySimpleJob" overwrite="true"/>-->
 
-    <job:dataflow registry-center-ref="zkCenter" cron="0/10 * * * * ?" sharding-total-count="2" id="myDataflowJob" class="com.github.wangchenning.MyDataflowJob" overwrite="true" streaming-process="true" />
+    <job:dataflow registry-center-ref="zkCenter" cron="0/10 * * * * ?" sharding-total-count="2" id="myDataflowJob" class="com.github.wangchenning.MyDataflowJob"
+                  overwrite="true" streaming-process="true" event-trace-rdb-data-source="dataSource">
+        <job:listener class=""/>
+        <job:distributed-listener class="" started-timeout-milliseconds="" completed-timeout-milliseconds=""/>
+    </job:dataflow>
 </beans>
